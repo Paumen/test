@@ -1,1 +1,848 @@
-test {}
+
+/* Copyright © 2026 J. Paumen.All rights reserved. Unauthorized copying of this file is strictly prohibited.*/
+
+/*==========================================  
+1.0 variables 
+==========================================*/
+
+.theme0 {
+  color-scheme: light dark; 
+  
+  --t10: #f0f7f9;  --t20: #deeef3;  --t30: #c1dfe8;
+  --t40: #9fcbd9;  --t50: #6fb0c3;  --t60: #3d8fa8;
+  --t70: #1e6d85;  --t80: #0d4f62;  --t90: #094054;
+  
+  --text: light-dark(var(--t80), var(--t20));
+  --text-light: light-dark(var(--t70), var(--t10));
+  --text-dark: light-dark(var(--t90), var(--t40));
+  
+  --bg-color-html: light-dark(var(--t10), var(--t90));
+  --bg-color-play-area: light-dark(var(--t20), var(--t80));
+  --bg-color-light: light-dark(var(--t30), var(--t70));
+  --bg-color-active: var(--t60);
+  
+  --border: light-dark(var(--t60), var(--t60));
+  
+  --btn: linear-gradient(to bottom, 
+    light-dark(var(--t20), var(--t70)), 
+    light-dark(var(--t30), var(--t80)));
+  --btn-light: linear-gradient(to bottom, 
+    light-dark(var(--t10), var(--t60)), 
+    light-dark(var(--t20), var(--t70)));
+  --btn-dark: linear-gradient(to bottom, 
+    light-dark(var(--t30), var(--t80)), 
+    light-dark(var(--t40), var(--t90)));
+  
+  --btn-tichu: linear-gradient(135deg,
+    var(--t60) 0%,var(--t50) 50%,var(--t60) 100%);
+  --btn-bomb: linear-gradient(to bottom, 
+    var(--t50), var(--t70));
+  --btn-gt: linear-gradient(90deg, 
+    var(--t40) 0%, var(--t50) 50%, var(--t60) 100%);
+
+  --btn-hover: light-dark(var(--t30), var(--t60));
+  --btn-active: light-dark(var(--t40), var(--t50));
+  --focus-ring: var(--t40);
+  
+  --border-radius: 8px;
+  
+  --shadow-inset: light-dark(
+    inset 0 2px 4px rgba(9, 64, 84, 0.1),
+    inset 0 2px 4px rgba(0, 0, 0, 0.4));
+  --shadow-elevated: light-dark(
+    0 4px 12px rgba(9, 64, 84, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.6));
+}
+
+/*==========================================  
+2.0 generic
+ ==========================================*/
+
+.bgagame-tichu{#pagemaintitle_wrap{#gotonexttable_wrap,#pagemaintitletext,#not_playing_help,#undoredo_wrap,#active_player_statusbar{display:none!important}}.ha_board,.emblempremium,.emblempremium big,.icon20,.fa-star,.doubletime_infos,.del_favorite,.footercol,#footer_footer,#prefs,#themes,#play_button .to_translate,.space2{display:none!important}#playertables .playertabletext{display:none!important}}.theme0{#ingame_menu_howtoplay,#ingame_menu_bug,#ingame_menu_3d{display:none!important}}.gamestate_grandTichuBets #myMakeTichuBet{display:none!important}
+
+.bgagame-tichu {
+  #leftright_page_wrapper { gap: 0; }
+  .mobile_version #right-side {margin-top: 0;  }
+} 
+
+.bgagame-tichu .game-content {color: var(--text);} 
+
+.bgagame-tichu body,
+.bgagame-tichu #overall-content,
+.theme0 #loader_mask {
+  background: var(--bg-color-html) !important;
+}
+
+.bgabuttonbar {line-height: auto;}
+
+.bgagame-tichu .bgabutton {
+  text-shadow: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0px;
+  font-size: clamp(12px, 1.5vw, 28px);
+  text-transform: uppercase;
+  white-space: normal;
+  color: var(--text);
+  background: var(--btn) !important;
+  border: none;
+  border-radius: 16px;
+  -webkit-tap-highlight-color: #00000000;
+  transition: background 0.2s ease;
+
+  &:active {background: var(--btn-active) !important;}
+  
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.bgagame-tichu .desktop_version .bgabutton:hover {
+  background: var(--btn-hover) !important;
+}
+
+.bgagame-tichu #game_play_area {
+  width: 90%;
+  min-height: 50vh !important;
+  margin: 5px auto;
+  background: var(--bg-color-play-area);
+  border-radius: var(--border-radius);
+  padding-top: 10px;
+  place-items: center;
+}
+
+/*==========================================  
+3.1 Page Topbar 
+==========================================*/
+
+.theme0 { #site-logo, #loader_mask, #overall-footer, #topbar { filter: light-dark (sepia(100%) hue-rotate(160deg) brightness(100%) saturate(200%) ,sepia(100%) hue-rotate(160deg) brightness(80%) saturate(200%) )!important;
+}}
+
+@media (prefers-color-scheme: light ) {.theme0 { #site-logo, #loader_mask, #overall-footer, #topbar { filter: sepia(100%) hue-rotate(160deg) brightness(100%) saturate(200%) !important;
+}}}
+
+.theme0 #topbar {
+  box-shadow: none;
+  background: var(--bg-color-play-area) !important;
+  border-bottom: 1px solid var(--border);
+}
+
+/*==========================================  
+3.2 ingame menu
+==========================================*/
+
+
+.theme0 #ingame_menu_content {
+  background: var(--bg-color-play-area) !important;
+  color: var(--text) !important;
+  padding: 5px !important;
+}
+
+.theme0 .ingame_menu_item {
+  display: flex;
+  place-items: center !important;
+  height: 42px !important;
+  line-height: 1 !important;
+  padding: 20px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  background: var(--bg-color-light) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 5px !important;
+  font-size: clamp(12px, 1.2vw, 14px) !important;
+  margin: 2px;
+
+  p {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    display: flex !important;
+    place-items: center !important;
+    height: 100% !important;
+    flex-grow: 1 !important;
+  }
+}
+
+.theme0 .icon64 {
+  scale: 0.4;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  filter: invert(var(--icon-invert, 0));
+}
+
+.theme0 .ingame_menu_buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  padding: 5px !important;
+  min-height: 0 !important;
+}
+
+.theme0 #ingame_menu_content .row-data,
+.theme0 #pagesection_options .row-data {
+  place-items: center;
+  display: grid;
+  gap: 0;
+  grid-template-columns: 180px auto;
+}
+
+html {
+  .pagesection,
+  .portlet,
+  .tips,
+  .pageheader_menuitem {
+    margin: 1px !important;
+    background: var(--bg-color-light) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px;
+    color: var(--text);
+  }
+}
+
+html .pagesection h2,
+#maingameview_menufooter {
+  background: var(--bg-color-play-area) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  color: var(--text);
+}
+
+html { .pagesection__content, .portlet__content, .tips__content {padding: 0 !important;}}
+
+html .row-data, 
+html .row-data-large {
+  padding: 0 !important;
+  min-height: 12px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  place-content: space-between !important;
+  border-bottom: 1px solid var(--border) !important;
+
+  &:last-child {border-bottom: none !important;}
+}
+
+html .row-label {
+  padding: 0 !important;
+  line-height: 1 !important;
+  font-size: 12px !important;
+  flex: 1 1 auto !important;
+  max-width: 45% !important;
+  min-width: 45% !important;
+  text-align: left !important;
+  color: var(--text-dark) !important;
+}
+
+html .row-value {
+  margin: 1px !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  flex: 0 0 auto !important;
+  text-align: left !important;
+  max-width: 55% !important;
+  min-width: 55% !important;
+  color: var(--text) !important;
+}
+
+html .preference_choice {
+  margin: 2px !important;
+  padding: 5px !important;
+  font-size: 12px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--bg-color-light) !important;
+  color: var(--text) !important;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {background: var(--btn-hover) !important;}
+  &.active {
+    background: var(--bg-color-active) !important;
+    color: var(--text) !important;
+    border-color: var(--bg-color-active) !important;
+  }
+}
+
+/*==========================================      
+4. Score Tables Player Info 
+==========================================*/
+
+.bgagame-tichu #right-side-first-part {scale: 0.96;} 
+
+.bgagame-tichu .timeToThink {color: var(--text-dark);}
+
+.bgagame-tichu .avatar {
+  box-shadow: 0 0 0 2px var(--t40), 0 2px 4px rgba(0, 47, 60, 0.2);
+  border-radius: 50%;
+}
+
+.bgagame-tichu .gamerank { 
+  line-height: 30px;
+  color: var(--text-light) !important;
+}
+
+.bgagame-tichu .player-name a,  
+.bgagame-tichu .playertablename, 
+.bgagame-tichu .playername {
+  color: var(--text-dark) !important;
+}
+
+.bgagame-tichu .player_score { color: var(--text);font-weight: bold;}
+
+.player_elo_wrap {
+  display: inline !important;
+  visibility: visible !important;
+  color: transparent;
+}
+
+#player-board {
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none !important;
+  padding: 0;
+}
+
+.player_board_inner {
+  position: relative;
+  background-color: var(--bg-color-light);
+  border-radius: var(--border-radius);
+  margin: 0;
+  padding: 5px;
+}
+
+#player_boards {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.mobile_version #spectatorbox_wrapper {
+  display: block !important;
+  margin: 5px !important;
+  color: var(--text-dark) !important;
+  background-color: var(--t80) !important;
+}
+
+/*==========================================
+ 5. top button bar 
+ ==========================================*/
+
+.bgagame-tichu #pagemaintitle_wrap {
+  display: inline-flex !important;
+  align-items: flex-start !important;
+  justify-content: space-evenly !important;
+  flex-wrap: nowrap; 
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+
+.bgagame-tichu {
+  #page-title,
+  #pagemaintitle_wrap,
+  #maintitlebar_content,
+  #generalactions,
+  #page-title .roundedbox,
+  #pagemaintitle_wrap .roundedboxinner {
+    position: relative !important;
+    padding: 0 !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    width: 100%;
+    color: var(--text-dark);
+    background: transparent;
+    vertical-align: top !important;
+    margin: 0 !important;
+  }
+} 
+
+.bgagame-tichu #maintitlebar_content > div[style*="inline-block"] {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: center;
+  height: 100%;
+  vertical-align: top !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.bgagame-tichu #maintitlebar_content > div {
+  width: auto !important;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.bgagame-tichu #page-title {
+  display: flex;
+  place-content: center;
+  gap: 5px;
+  position: relative;
+}
+
+.bgagame-tichu #gameaction_status_wrap {
+  flex: 0 0 auto;
+  font-size: clamp(9px, 1.5vw, 11px) !important;
+  filter: sepia(100%) hue-rotate(160deg) brightness(80%) saturate(200%);
+}
+
+.bgagame-tichu #gameaction_status {
+  font-size: clamp(12px, 2vw, 14px) !important;
+  color: var(--bg-color-light) !important;
+}
+
+.bgagame-tichu #generalactions { width: auto !important;}
+
+.bgagame-tichu #generalactions .bgabutton {
+  display: inline-flex !important;
+  place-content: center !important;
+  box-sizing: border-box;
+  min-height: 4vh;
+  height: 4vh;
+  min-width: 25vw !important;
+  width: 30vw !important;
+  max-width: 30vw !important;
+  padding: 10px;
+  line-height: 1.3;
+  white-space: normal !important;
+  overflow-wrap: break-word;
+  box-shadow: var(--shadow-inset);
+  border: 1px solid var(--border) !important;
+  margin: 5px;
+}
+
+.bgagame-tichu {
+  .bgabutton_gray {background: var(--btn-dark)!important;}
+  .bgabutton_blue {background: var(--btn-light)!important;}
+  #generalactions #noBet {background: var(--btn) !important;}
+}
+
+.bgagame-tichu #makeGTBet {
+  color: var(--t10) !important;
+  background: var(--btn-gt) !important;
+  border-radius: 666px;
+}
+
+.bgagame-tichu #maintitlebar_content #skip_player_turn {
+  box-sizing: border-box;
+  font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+  max-width: 30vw !important;
+  display: inline-flex !important;
+  place-content: center !important;
+  margin: 5px;
+  min-height: 4vh;
+  height: 4vh;
+  padding: 10px;
+  line-height: 1.3;
+  white-space: normal !important;
+  overflow-wrap: break-word;
+  box-shadow: var(--shadow-inset);
+  border: 1px solid var(--border);
+  background: var(--btn-dark) !important;
+
+  &[style*="display: inline"]:not([style*="none"]),
+  &[style*="display:inline"]:not([style*="none"]) {
+    display: inline-flex !important;
+  }
+}
+
+/*========================================== 
+6. player table
+==========================================*/
+
+#card-last-played-area {
+  height: 60vh !important;
+  background: transparent;
+  display: grid;
+  grid-gap: 5px !important;
+  padding: 1vh !important;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  place-items: center;
+
+  &:after {
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+    content: "© 2026 J. Paumen";
+    color: light-dark(var(--t30), var(--t50));
+  }
+
+  .tichu-status {
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
+    place-self: start end;
+    text-align: right;
+  }
+}
+
+#playertables .playertable {
+  display: inline-flex !important;
+  flex-direction: column;
+  place-items: center !important;
+  box-sizing: border-box;
+  text-align: center;
+  width: 40vw;
+  height: 45%;
+  font-size: clamp(16px, 4vw, 32px);
+  border-radius: var(--border-radius);
+  background: var(--bg-color-light);
+  padding: 30px;
+  margin: 60px;
+  border-color: var(--border) !important;
+}
+
+#playertables .playertablename {
+  width: 30vw;
+  margin: 10px;
+  color: var(--text-dark) !important;
+}
+
+#playertables .playertablebackground {
+  place-self: center;
+  width: 30vw;
+  margin: 60px;
+  color: var(--text-dark) !important;
+}
+
+.gamestate_giveCards .isCurrentPlayerActive #playertables .playertable {
+  cursor: pointer;
+}
+
+.gamestate_giveCards .isCurrentPlayerActive #playertables .playertabletext {
+  display: block;
+}
+
+
+#playertables .playertable_1,
+#playertables .playertable_3 {
+  margin: 150px 0 25px 0;
+}
+
+.squareTable #card-last-played-area {
+  grid-template-columns:
+    minmax(200px, 2fr)
+    minmax(200px, 2fr)
+    minmax(0px, 0fr)
+    minmax(200px, 2fr)
+    minmax(200px, 2fr);
+  grid-template-rows: 1fr 1fr 1fr;
+  place-items: center;
+}
+
+.bgagame-tichu #card-last-played-area .last-played-container {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  height: 90% !important; 
+  width: 100%;
+  border: 5px solid var(--bg-color-html);
+  background: var(--bg-color-light);
+  border-radius: calc(3 * var(--border-radius));
+  position: relative;
+  padding: 0;
+  margin: 2px;
+
+  &.active {
+    border: 5px solid var(--bg-color-active);
+    z-index: 120;
+  }
+}
+
+.bgagame-tichu .last-played-player {
+  box-sizing: border-box;
+  height: 20%;
+  min-height: 25px;
+  width: 100%;
+  display: flex;
+  place-content: space-between;
+  flex-shrink: 0;
+  background: var(--bg-color-html) !important;
+  padding: 0;
+  font-size: clamp(16px, 4vw, 32px) !important;
+  
+  .playertablename {
+    box-sizing: border-box;
+    width: 40%;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px;
+    font-weight: bold;
+  }
+  
+  .last-played-icons {
+    width: 60%;
+    display: flex;
+    place-content: center;
+    padding: 5px;
+  }
+  
+  .Icons {
+    display: inline-block;
+  }
+  
+  .count {
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+    font-size: clamp(16px, 4vw, 32px) !important;
+  }
+  
+  > div:last-child {
+    display: flex;
+    gap: 5px;
+  }
+}
+
+.bgagame-tichu .last-played-combo {
+  box-sizing: border-box;
+  height: 80%;
+  width: 100%;
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  place-items: flex-end center;
+  align-content: flex-end;
+  align-self: flex-end;
+  overflow: visible;
+}
+
+.bgagame-tichu #playertables {
+  height: 60vh !important;
+  width: 100% !important;
+}
+
+.gamestate_giveCards #card-last-played-area,
+.gamestate_showPassedCards #card-last-played-area {
+  visibility: visible !important; 
+}
+
+.bgagame-tichu .icon.grandtichucolor, 
+.bgagame-tichu .icon.tichucolor {
+  animation: pulse 1s ease-in-out 5 forwards;
+}
+@keyframes pulse {50% {transform: scale(1.7);}}
+
+
+/*==========================================  
+7. Bottom Button Bar
+==========================================*/
+
+.bgagame-tichu .space1 {width: 0;}
+
+.bgagame-tichu #buttons {
+  display: flex;
+  height: 150px;
+  padding: 15px;
+  gap: 5px;
+  place-content: center;
+  background: var(--bg-color-light) !important;
+  box-shadow: var(--shadow-inset);
+  border-radius: var(--border-radius);
+  border-top: 1px solid var(--border);
+}
+
+.bgagame-tichu #buttons .bgabutton {
+  box-sizing: border-box;
+  width: 150px;
+  height: 140px;
+  font-size: clamp(16px, 4vw, 28px);
+  box-shadow: var(--shadow-inset);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elevated);
+  }
+}
+
+.bgagame-tichu #myConfirmTrick, 
+.bgagame-tichu #myPlayCombo { 
+  background: var(--btn-dark) !important;
+  color: var(--t10) !important;
+}
+
+.bgagame-tichu {
+  #myPassOnce, #myCancelAutopass {
+    position: relative;
+    align-items: flex-start;
+    
+    &::before, &::after {
+      content: "";
+      position: absolute;
+    }
+    
+    &::before {
+      bottom: 15px;
+      left: 50%;
+      width: 120px;
+      height: 35px;
+      transform: translateX(-50%);
+      border-radius: 20px;
+      box-shadow: var(--shadow-inset);
+      line-height: 35px;
+      font-weight: bold;
+      font-size: clamp(15px, 2.5vw, 18px);
+      background: var(--t10);
+    }
+    
+    &::after {
+      bottom: 18px;
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      transition: transform 0.35s ease, background 0.35s ease, left 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      display: flex;
+      place-items: center;
+      justify-content: center;
+      background: var(--t20);
+      box-shadow: 0 2px 4px rgba(0, 31, 40, 0.2);
+    }
+  }
+  
+  #myPassOnce {
+    &::before { 
+      content: "OFF"; 
+      background: var(--t30); 
+      color: var(--t90);
+    }
+    &::after { 
+      left: calc(50% - 54px);
+    }
+  }
+  
+  #myCancelAutopass {
+    &::before { 
+      content: "ON"; 
+      color: var(--t90); 
+      background: var(--t60);
+    }
+    &::after { 
+      left: calc(50% + 26px);
+    }
+  }
+}
+
+#bomb_button #myPlayBomb {
+  height: 70px !important;
+  background: var(--btn-bomb) !important;
+}
+
+#tichu_button #myMakeTichuBet {
+  height: 70px !important;
+  background: var(--btn-tichu) !important;
+  will-change: transform;
+  border: 2px solid var(--t40) !important;
+}
+
+
+/*==========================================  
+8. MyHand
+==========================================*/
+
+
+
+.bgagame-tichu #myhand { 
+  filter: sepia(0.05) brightness(0.90);
+  padding: clamp(10px, 4vw, 20px);
+  margin: 15px 250px 25px 15px;
+}
+
+@media (prefers-color-scheme:light ){.bgagame-tichu #myhand { 
+  filter: none;}}
+
+.mobile_version #myhand {
+  margin: clamp(5px, 4vw, 15px) !important;
+  scale: 1.1;
+}
+
+.mobile_version #myhandwrap {
+  margin: clamp(30px, 6vw, 50px) !important;
+}
+
+.bgagame-tichu .smallCards {
+  background-size: 1050px 450px;
+}
+
+.bgagame-tichu .stockitem {
+  border-radius: var(--border-radius);
+  box-shadow: 2px 2px 5px 3px #666;
+
+  &.stockitem_selected {
+    border: 1px solid #dda !important;
+    box-shadow: 0 0 4px 1px #ff8;
+    translate: 0 -20px;
+  }
+}
+
+/*==========================================  
+9. Chat Windows
+==========================================*/
+
+.chatwindowpreviewmsg,
+.chatwindowcollapsed {
+  background-color: var(--bg-color-light);
+  color: var(--text);
+}
+
+.chatwindowcollapsed:hover {
+  background-color: var(--btn-hover) !important;
+  .icon20 {filter:  invert(100%);}
+}
+
+.chatwindowcollapsed .chatwindowcollapsedtitle {  color: var(--text);}
+
+.chatwindowlogs,
+.chatwindowexpanded {
+  background-color: var(--bg-color-play-area);
+
+  .timestamp {color: var(--text);}
+
+  .roundedboxinner {
+    background-color: var(--bg-color-light) !important;
+    color: var(--text) !important;
+    a {color: var(--t50) !important;
+      &:hover {color: var(--t60) !important;
+    }
+  }
+}
+
+  .audiovideo_active.chatbarbelowinput_item {
+    &:hover {
+      color: var(--t50) !important;
+      border-bottom-color: var(--50) !important;
+      }
+    }
+  }
+
+
+#topbar.ingame {
+  background: var(--bg-color-html);
+
+  .upperrightmenu_item i,
+  .upperrightmenu_item a,
+  #tableinfos {
+    color: #999;
+  }
+}
+
+#ingame_menu_content {
+  background: var(--bg-color-html);
+  .ingame_menu_item {
+    color: var(--text) !important;
+    &:hover {
+      background-color: var(--btn);
+    }
+  }
+  .icon64 {filter: invert(100%);}
+}
+
+/*==========================================  
+10. Misc Utilities
+==========================================*/
+
+.bgabutton {padding: 16px; min-width: 44px;max-width: 240px;}
+
+.mobile_version #main-content .col-md-12 {overflow-x: hidden;}
