@@ -1,7 +1,7 @@
 // Example code with various issues for AI review
 
 // Security issue: hardcoded API key
-const API_KEY = "sk-1234567890abcdef1234567890abcdef";
+const API_KEY = process.env.API_KEY;
 const DB_PASSWORD = "admin123";
 
 // Performance issue: inefficient loop
