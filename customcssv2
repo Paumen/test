@@ -1,0 +1,883 @@
+@layer common, gameserver, libraries, Game;
+@import url("https://x.boardgamearena.net/data/themereleases/251222-1408/css/common.css") layer(common);
+@import url("https://x.boardgamearena.net/data/themereleases/251222-1408/css/gameserver.css") layer(gameserver);
+@import url("https://x.boardgamearena.net/data/themereleases/current/css/libraries.css?2") layer(libraries);
+@import url("https://x.boardgamearena.net/data/themereleases/current/games/tichu/240611-1230/tichu.css") layer(Game);
+
+/*==============
+1. Variables
+===============*/
+
+.theme0 {
+color-scheme: light dark;
+--t10:#f0f7f9;--t20:#deeef3;--t30:#c1dfe8;
+--t40:#9fcbd9;--t50:#6fb0c3;--t60:#3d8fa8;
+--t70:#1e6d85;--t80:#0d4f62;--t90:#094054;
+
+--text:      light-dark(var(--t80),var(--t20));
+--text-dark: light-dark(var(--t90),var(--t40));
+--bg:        light-dark(var(--t20),var(--t80));
+--bg-dark:   light-dark(var(--t10),var(--t90));
+--bg-light:  light-dark(var(--t30),var(--t70));
+--bg-active: var(--t50);
+
+--btn:       linear-gradient(to bottom, light-dark(var(--t20),var(--t70)), light-dark(var(--t30), var(--t80)));
+--btn-light: linear-gradient(to bottom, light-dark(var(--t10),var(--t60)), light-dark(var(--t20), var(--t70)));
+--btn-dark:  linear-gradient(to bottom, light-dark(var(--t30),var(--t80)), light-dark(var(--t40), var(--t90)));
+--btn-tichu: linear-gradient(90deg, var(--t40) 0%, var(--t50) 50%,var(--t60) 100%);
+--btn-hover:  light-dark(var(--t30),var(--t60));
+--btn-active: light-dark(var(--t40),var(--t50));
+--focus-ring: var(--t40);
+
+--shadow-inset:    light-dark(inset 0 2px 4px #0940541a, inset 0 2px 4px #00000066);
+--shadow-elevated: light-dark(0 4px 12px #09405426, 0 4px 12px #00000099);
+
+--filt-dark:  sepia(100%) hue-rotate(160deg) brightness(75%) saturate(200%);
+--filt-light: sepia(100%) hue-rotate(160deg) brightness(90%) saturate(200%);
+
+--border:  1px solid var(--t60);
+--border2: 2px solid var(--t60);
+
+--border-radius: 8px;
+
+--space:  clamp(1px, 0.5cqi, 4px);
+--space2: clamp(2px, 1.0cqi, 8px);
+--space4: clamp(4px, 2.0cqi, 16px);
+}
+
+/*==============
+2. Reset + Foundation
+===============*/
+
+.bgagame-tichu {
+ :is(#pagemaintitle_wrap, #maintitlebar_content, #maintitlebar_content > div, .pagesection_gameview, .page-content, #player_boards, .player-board, #player_score, #generalactions, #overall-content),
+ .player_board_inner :is(.player-name, .player_board_content, .player_score, .player_elo_wrap),
+ #game_play_area_wrap #game_play_area {
+  display: contents !important;
+ }
+
+ :is(.ha_board, .emblempremium, .emblempremium big, .icon20, .fa-star, .del_favorite, #prefs, #themes, #play_button .to_translate, .doubletime_infos,.space1, .space2, #playertables .playertabletex, .gamestate_grandTichuBets #myMakeTichuBet, .gamestate_giveCards #myMakeTichuBet,#controls3d_wrap, .pagesection, #maingameview_menufooter),
+ .player_board_inner :is(.player_showcursor, .player_table_status, .player-board-game-specific-content, .player_panel_content) {
+  display: none !important;
+  }
+}
+
+#pagemaintitle_wrap :is(#pagemaintitletext, #not_playing_help, #undoredo_wrap, #active_player_statusbar), 
+#overall-footer, 
+.gamestate_giveCards #card-last-played-area {
+ display: none !important;
+}
+
+.bgagame-tichu {&, *::before, *::after { box-sizing: border-box; }}
+
+body { height: 80dvh !important;}
+
+/*==============
+3. bga topbar
+===============*/
+
+.theme0 #topbar { box-shadow: none; height: 5dvh; min-height: 40px;
+
+ #site-logo {
+  position: relative !important;
+  display: flex;
+  place-items: center;
+  height: 5dvh;
+  min-height: 32px;
+  }
+
+ #logoiconimg {
+  position: relative !important;
+  inset-block-start: 1px !important;
+  inset-inline-start: unset !important;
+  width: auto;
+  height: 90%;
+  aspect-ratio: 1;
+  }
+}
+
+/*==============
+4. Scoreboard 
+===============*/
+
+.bgagame-tichu #right-side-first-part {
+ container: scoreboard / size;
+ display: grid !important;
+ grid: 2fr 2fr .5fr / 1fr 1fr;
+ gap: clamp(1px, var(--space), 12px) !important;
+ width: 100%;
+ height: clamp(96px, 14dvh, 192px) !important;
+ margin: 0;
+ overflow: hidden;
+}
+
+.bgagame-tichu .player_board_inner {
+ display: grid;
+ grid: auto auto / repeat(12, 1fr);
+ place-items: center;
+ height: auto !important;
+ min-height: 40px !important;
+ padding: var(--space2);
+ border-radius: var(--border-radius);
+ color: var(--text);
+ font-weight: bold;
+ font-size: clamp(12px, 3cqi, 24px);
+ overflow: hidden;
+
+ :is(> .emblemwrap, .avatar, .player_status, .bga-flag, .timeToThink, .gamerank) {position: static !important;  place-self: center; }
+
+ > .emblemwrap {  grid-area: 1 / 1 / 3 / 3; margin: 0; }
+ 
+ .player_status {  grid-area: 1 / 11; }
+ .bga-flag {  grid-area: 1 / 12; }
+ .player_score_value { grid-area: 2 / 3 / 3 / 5; }
+ .timeToThink { grid-area: 2 / 11 / 3 / 13; place-self: center end; 
+  padding: 0; }
+
+ .player-name > a:first-of-type {
+  grid-area: 1 / 3 / 2 / 11;
+  color: var(--text-dark) !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+
+ .gamerank {
+  grid-area: 2 / 5 / 3 / 7;
+  display: flex !important;
+  height: 64% !important;
+  padding: 4% !important;
+  margin: 0 !important;
+  line-height: 1.6;}
+}
+
+#spectatorbox > .player_board_inner {
+ display: flex;
+ grid-area: 3 / 1 / span 1 / span 2;
+ place-items: start;
+ background: transparent !important;
+ color: var(--text-dark);
+}
+
+#spe ctatorlist {
+ font-size: clamp(10px, 80%, 20px);
+ font-weight: normal;
+ overflow: hidden;
+
+ &:has(a)::after { content: "\1F440"; }
+}
+
+/*==============
+5. Button Bars
+===============*/
+
+.bgagame-tichu #page-title {
+ container: topbuttonbar / inline-size;
+ display: flex;
+ flex-flow: nowrap;
+ place-content: stretch;
+ padding: var(--space) !important;
+ margin: 0;
+ gap: var(--space4);
+ width: 72%;
+ max-width: 72%;
+ height: 8dvh !important;
+ min-height: 48px !important;
+ background: transparent ;
+}
+
+.bgagame-tichu #buttons {
+ container: bottombar / size;
+ display: grid !important;
+ grid: 1fr / repeat(5, 1fr) !important;
+ gap: var(--space4);
+ width: 100% !important;
+ height: clamp(48px, 13%, 120px) !important;
+ padding: var(--space2) !important;
+ border-top: var(--border2);
+ border-radius: var(--border-radius);
+ box-shadow: var(--shadow-inset);
+ overflow: visible;
+ 
+  :is(#play_button, #pass_button, #pass_trick_button, #bomb_button, #tichu_button) {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 40px !important;
+  max-height: 100% !important;
+ }
+}
+
+/*==============
+6. Buttons generic
+===============*/
+
+.bgagame-tichu .bgabutton {
+ display: flex;
+ place-content: center;
+ place-items: center;
+ margin: 0;
+ padding: var(--space2);
+ border: 0;
+ font-size: clamp(8px, 2.5cqi, 24px);
+ text-transform: uppercase;
+ text-wrap: balance;
+ color: var(--text);
+ background: var(--btn) !important;
+ border-radius: calc(var(--border-radius) * 2);
+ box-shadow: none;
+ text-shadow: none;
+ -webkit-tap-highlight-color: transparent;
+ transition: background 0.2s ease,  transform 0.2s ease, box-shadow 0.15s ease;
+
+&:active { transform: translateY(0); background: var(--btn-active); }
+&:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+}
+
+/*==============
+7. Top buttons
+===============*/
+
+.bgagame-tichu :is(#page-title .bgabutton, #skip_player_turn, #gameaction_status_wrap) {
+ display: inline-flex;
+ flex: 1 1 auto;
+ place-self: stretch !important;
+ width: auto;
+ min-width: 16cqi !important;
+ max-width: 32cqi !important;
+ height: auto !important;
+ white-space: normal;
+}
+
+.bgagame-tichu #page-title {
+ .bgabutton_gray { background: var(--btn-dark) !important; }
+ .bgabutton_blue { background: var(--btn-light) !important;}
+ 
+#makeGTBet {
+ order: 4;
+ color: var(--t10);
+ background: var(--btn-tichu) !important;
+ border-radius: 666px;
+ }
+ 
+ #noBet { order: 5; background: var(--btn) !important; }
+ }
+ #skip_player_turn { order: -3; font-size: clamp(8px, 1cqi, 16px); }
+
+.bgagame-tichu #page-title {
+ #gameaction_status_wrap { order: -2; max-width: 100px; border: 0; filter: var(--filt-dark); }
+ #gameaction_status { font-size: clamp(8px, 1cqi, 16px) }
+}
+
+/*==============
+8. Bottom buttons
+===============*/
+ 
+.bgagame-tichu #buttons .bgabutton {
+ width: 100% !important;
+ height: 100% !important;
+ min-height: 32px !important;
+ max-height: 100% !important;
+ border: var(--border);
+ box-shadow: var(--shadow-inset);
+}
+ 
+.bgagame-tichu #buttons {
+ :is(#bomb_button, #tichu_button) { height: 50% !important; place-self: start; }
+
+ :is(#myConfirmTrick, #myPlayCombo) { background: var(--btn-dark) !important; color: var(--t10) !important; }
+ 
+ #tichu_button #myMakeTichuBet { background: var(--btn-tichu) !important; border: var(--border); }
+}
+
+.bgagame-tichu :is(#myPassOnce, #myCancelAutopass) {
+ position: relative;
+ display: flex;
+ flex-flow: column;
+ padding-block-end: clamp(6px, 1.5cqi, 8px) !important;
+
+ :is(&::before, &::after) {
+  content: "";
+  position: absolute;
+  font-weight: bold;
+  font-size: clamp(8px, 1.5cqi, 16px);
+  color: var(--t90);
+  pointer-events: none;
+ }
+
+ &::before {
+  inset-block-end: clamp(3px, 1.5cqi, 10px);
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  width: clamp(16px, 85%, 92px);
+  height: clamp(8px, 3.5cqi, 20px);
+  border-radius: 999px;
+  box-shadow: var(--shadow-inset);
+  line-height: clamp(8px, 2.5cqi, 16px);
+  text-align: center;
+ }
+
+ &::after {
+  inset-block-end: clamp(4px, 2cqi, 12px);
+  width: clamp(8px, 2.5cqi, 20px);
+  height: clamp(8px, 2.5cqi, 20px);
+  border-radius: 50%;
+  box-shadow: var(--shadow-elevated);
+  transition: left .3s cubic-bezier(.4, 0, .2, 1), background .3s ease;
+ }
+}
+
+.bgagame-tichu #myPassOnce {
+ &::before { content: "OFF"; background: var(--t30); }
+ &::after { inset-inline-start: calc(50% - clamp(10px, 50%, 30px)); background: var(--t10); }
+}
+
+.bgagame-tichu #myCancelAutopass {
+ &::before { content: "ON"; background: mediumaquamarine; }
+ &::after { inset-inline-start: calc(50% + clamp(5px, 25%, 15px)); background: var(--t10); }
+}
+
+/*==============
+9. Game Area 
+===============*/
+
+.bgagame-tichu #pagesection_gameview #game_play_area_wrap {
+ container: game-area / inline-size;
+ transform: scale(1) !important;
+ width: auto !important;
+ min-width: 0 !important;
+ max-width: unset !important;
+ height: 64dvh;
+ min-height: 48dvh !important;
+ margin: var(--space2);
+ padding: var(--space);
+ border-radius: var(--border-radius);
+ place-items: center;
+ overflow: hidden !important;
+}
+
+/*==============
+10. Play Area 
+===============*/
+
+.bgagame-tichu #card-last-played-area {
+ container: play-table / inline-size;
+ display: grid;
+ grid: auto auto auto / repeat(4, 1fr) !important;
+ position: relative;
+ place-items: stretch;
+ box-sizing: border-box;
+ gap: var(--space4) !important;
+ padding: var(--space2) !important;
+ width: 100%;
+ height: 56% !important;
+ min-height: 188px !important;
+ max-height: 64%;
+ background: transparent;
+ font-size: 12px;
+
+ &::after {
+  content: "© 2026 J. Paumen";
+  position: absolute;
+  inset-inline-end: 16px;
+  inset-block-end: 4px;
+  color: light-dark(var(--t30), var(--t50));
+  pointer-events: none;
+ }
+
+ tichu-status {
+  grid-area: 1 / 4;
+  place-self: start end;
+  z-index: 999;
+  font-size: 8px;
+  text-align: right;
+  display: none !important;
+ }
+
+ .top    { grid-area: 1 / 2 / 2 / 4; }
+ .left   { grid-area: 2 / 1 / 3 / 3; }
+ .right  { grid-area: 2 / 3 / 3 / 5; }
+ .bottom { grid-area: 3 / 2 / 4 / 4; }
+}
+
+.bgagame-tichu #card-last-played-area .last-played-container {
+ display: flex;
+ flex-flow: column;
+ place-items: start center;
+ aspect-ratio: 5 / 2;
+ width: 100% !important;
+ min-width: 0 !important;
+ height: auto !important;
+ min-height: 48px !important;
+ max-height: 160px;
+ padding: 0 !important;
+ margin: 0;
+ border: none;
+ overflow: visible !important;
+ border-radius: var(--border-radius) !important;
+
+ &.active { border: 4px solid aquamarine; }
+}
+
+.bgagame-tichu.clockwise #card-last-played-area {
+ .left  { grid-column: 3 / 5; }
+ .right { grid-column: 1 / 3; }
+}
+
+.bgagame-tichu .last-played-player {
+ display: flex;
+ flex: 0 0 auto;
+ place-items: center;
+ width: 100%;
+ height: 16%;
+ min-height: 16px;
+ padding: var(--space2) !important;
+ margin: 0 !important;
+ font-size: clamp(8px, 2cqi, 24px) !important;
+ color: var(--text);
+ box-sizing: border-box;
+ border-radius: var(--border-radius) var(--border-radius) 0 0;
+
+ .playertablename { 
+  flex: 0 0 50%; 
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+  overflow: hidden; }
+ text-align: left;
+  
+ .last-played-icons { 
+  display: flex; 
+  flex: 0 0 40%; 
+  place-items: center; }
+
+ :is(.hand, .star, .count) {
+  display: flex;
+  flex: 0 0 15%;
+  place-items: center;
+  background: none;
+ }
+
+ > div:last-of-type {
+  display: flex;
+  position: absolute;
+  inset-block-start: -8px;
+  inset-inline-end: -8px;
+  gap: 2cqi;
+  z-index: 100;
+ }
+}
+
+:is(.hand, .star) {
+ &::before {
+  font-size: clamp(12px, 2cqi, 24px);
+  color: var(--text);
+ }
+}
+
+.hand::before { content: "\1F0A0"; }
+.star::before { content: "\2605"; }
+
+.bgagame-tichu .last-played-combo {
+ container: combo / inline-size;
+ display: flex;
+ flex: 1 1 auto;
+ flex-wrap: wrap;
+ place-items: center;
+ place-content: center;
+ width: 100%;
+ min-height: 0;
+ padding: 0;
+ margin: 0 !important;
+ overflow: hidden !important;
+
+ :is(.stockitem, .pass) {
+  --_cqi-num: tan(atan2(100cqi, 100px));
+  scale: clamp(.35, var(--_cqi-num) * .2, .9);
+  margin: var(--space);
+ }
+
+ .pass {
+  img { scale: .8; margin: 0 -10px; }
+ }
+
+ img { max-height: 100%; object-fit: contain; }
+}
+
+.bgagame-tichu :is(.icon.grandtichucolor, .icon.tichucolor) {
+ z-index: 9999;
+ animation: pulse 1s ease-in-out 5 forwards;
+}
+
+@keyframes pulse { 50% { transform: scale(1.6); } }
+
+/*==============
+11. MyHand
+===============*/
+
+@property --_cqi-num {
+ syntax: "<number>";
+ inherits: false;
+ initial-value: 1;
+}
+
+.bgagame-tichu {
+ #myhand {
+  min-width: 100%;
+  height: 16%;
+  min-height: 80px;
+  margin: clamp(4px, 1cqi, 16px) auto;
+
+  .stockitem {
+   --_cqi-num: tan(atan2(100cqi, 100px));
+   scale: clamp(.4, var(--_cqi-num) * .125, 1.1);
+   transform-origin: center top;
+  }
+ }
+
+ #myhandwrap {
+  container: myhand / inline-size;
+  min-width: 100%;
+  margin: var(--space4);
+  transform-origin: center top;
+ }
+
+ :is(#myhand, #myhand > .stockitem) { box-sizing: content-box !important; }
+}
+/*==============
+12. Responsive Alternatives
+===============*/
+
+@container game-area (min-width: 600px) {
+ #card-last-played-area {
+  grid: 1fr 1.5fr 1fr / 1fr 2fr 1fr;
+  min-height: 56dvh;
+  max-height: 72dvh;
+
+  :is(.top, .bottom) { grid-column: 2; }
+  .left  { grid-column: 1; }
+  .right { grid-column: 3; }
+  tichu-status { grid-area: 1 / 3; }
+ }
+
+ .squareTable #card-last-played-area {
+  grid-template-columns: 1fr 1fr .5fr 1fr 1fr;
+
+  :is(.top, .bottom) { grid-column: 2 / 5; }
+  .left  { grid-column: 1 / 3; }
+  .right { grid-column: 4 / 6; }
+ }
+
+ .clockwise.squareTable #card-last-played-area .left { grid-column: 4 / 6; }
+}
+
+@media (prefers-color-scheme: light) {
+ .theme0 :is(#site-logo, #loader_mask, #overall-footer, #topbar) { filter: var(--filt-light); }
+ .bgagame-tichu #myhand { filter: none; }
+}
+
+@media (max-width: 768px) {
+ #page-title {
+  position: fixed !important;
+  inset: auto 0 0 0 !important;
+  z-index: 950;
+  max-width: 72vw !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+ }
+
+ #left-side { padding-block-end: 60px; }
+}
+
+@container bottombar (height < 72px) {
+ :is(#myPassOnce, #myCancelAutopass) {
+  :is(&::before, &::after) { display: none; }
+ }
+}
+
+@container scoreboard (height < 128px) {
+ .mobile_version #spectatorbox_wrapper { display: none !important; }
+ #right-side-first-part { grid-template-rows: 1fr 1fr !important; }
+}
+
+.bgagame-tichu .desktop_version .bgabutton:hover { transform: translateY(-2px); box-shadow: var(--shadow-elevated); }
+
+.mobile_version {
+ 
+ #spectatorbox_wrapper {display: contents; }
+ 
+ :is(footer, #leftright_page_wrapper, #left-side-wrapper, #right-side, #left-side, #right-side-first-part) {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  overflow: auto;
+ }
+}
+
+/*==============
+12. Misc / WIP
+===============*/
+
+
+/* Copyright © 2026 J. Paumen. All rights reserved. */
+
+/*==============
+0. Layers
+===============*/
+
+/*==============
+2. Reset +  Foundation
+===============*/
+
+.theme0 :is(#ingame_menu_howtoplay, #ingame_menu_bug, #ingame_menu_3d, .fa-microphone, .fa-video-camera, #overall-footer) {
+  display: none !important;
+}
+
+#pagesection_options, #ingame_menu_content * {
+ margin: 0;
+ padding: 0;
+ gap: 0;
+}
+
+/*==========================
+14.1 Theme Core
+===========================*/
+
+.theme0 {
+  :is(body, a.themelink .bg1, #loader_mask, #overall-content, #topbar, #topbar.ingame, .last-played-player, #mahjongpanel, #phoenixpanel, #topbar .ingame) {
+    background: var(--bg-dark) !important;
+  }
+
+  :is(#game_play_area, a.themelink .bg2, #ingame_menu_content, .chatwindowlogs, .chatwindowexpanded, #pagesection_gameview #game_play_area_wrap) {
+    background: var(--bg);
+  }
+
+  :is(#buttons, #card-last-played-area .last-played-container, #playedCards h3, #playertables .playertable, a.themelink .bg3, #game_play_area #prefs a, .preference_choice, .ingame_menu_item, .chatwindowpreviewmsg, .chatwindowcollapsed, .roundedboxinner, .player_board_inner) {
+    background: var(--bg-light);
+  }
+
+  #prefs { border-top: 1px solid var(--bg-light); }
+  :is(#site-logo, #loader_mask) { filter: var(--filt-dark); }
+
+  #reflexiontimevalues {
+    font-size: clamp(8px, 80%, 16px) !important;
+    cursor: var(--text-dark);
+  }
+
+  .icon64 {
+    scale: 0.4;
+    margin: 0 !important;
+    filter: invert(1);
+  }
+}
+
+/*==========================
+15.1 Modules: IngameMenu
+===========================*/
+
+html {
+  :is(.pagesection, .portlet, .tips, .pageheader_menuitem) {
+    margin: var(--space);
+    color: var(--text);
+  }
+
+  .pagesection h2 {
+    border: var(--border);
+    color: var(--text);
+  }
+
+  :is(.row-data, .row-data-large) {
+    display: flex;
+    place-content: space-between;
+    padding: 0;
+    min-height: 10px;
+    border: var(--border);
+  }
+
+  :is(.row-label, .row-value, .preference_choice) {
+    margin: var(--space);
+    padding: var(--space);
+    font-size: 12px;
+    line-height: normal;
+    color: var(--text-dark);
+  }
+
+  .row-label { flex: 1 1 44%; }
+  .row-value { flex: 0 0 53%; }
+
+  .preference_choice {
+    border: var(--border);
+
+    &:hover { background: var(--btn-hover); }
+    &.active { background: var(--bg-active); }
+  }
+}
+
+#ingame_menu_content {
+  padding: var(--space);
+  border: var(--border2);
+  color: var(--text);
+}
+
+.ingame_menu_item {
+  display: flex;
+  place-items: center;
+  height: 42px;
+  padding: var(--space);
+  margin: 1px;
+  border: var(--border2);
+  border-radius: var(--border-radius);
+  font-size: clamp(8px, 2.5cqi, 16px);
+
+  &:hover { background: var(--btn); }
+
+  p {
+    display: flex;
+    place-items: center;
+    flex-grow: 1;
+    height: 100%;
+    margin: 0;
+  }
+}
+
+.ingame_menu_buttons {
+  display: flex;
+  flex-flow: column;
+  padding: var(--space);
+  margin: var(--space);
+  min-height: 0;
+}
+
+/*==========================
+15.2 Modules: Chat
+===========================*/
+
+:is(.chatwindowpreviewmsg, .chatwindowcollapsed) { color: var(--text); }
+
+.chatwindowcollapsed:hover {
+  background: var(--btn-hover);
+
+  .icon20 { filter: invert(100%); }
+}
+
+:is(.chatwindowlogs, .chatwindowexpanded) {
+  .timestamp { color: var(--text); }
+
+  .roundedboxinner {
+    color: var(--text);
+
+    a { color: var(--t50); }
+  }
+}
+
+:is(a, .playername):is(
+  [href*="93898902"], [id*="93898902"],
+  [href*="94262834"], [id*="94262834"],
+  [href*="92311403"], [id*="92311403"],
+  [href*="2428173"],  [id*="2428173"]
+) {
+  &::after { content: " \1F451"; display: inline; }
+}
+
+.theme0 #topbar :is(.upperrightmenu_item i, .upperrightmenu_item a, #tableinfos) { color: var(--text); }
+
+.theme0 :is(.player-name a, .playertablename, .playername) { color: var(--text-dark) !important; }
+
+#mahjongpanel {
+ position: absolute;
+ inset: 50% auto auto 50%;
+ transform: translate(-50%, -50%);
+ z-index: 500;
+ padding: var(--space4);
+ border: var(--border2);
+ border-radius: var(--border-radius);
+ background: var(--bg) !important;
+ box-shadow: var(--shadow-elevated);
+
+ h3 {
+  margin-block-end: var(--space2);
+  font-size: 12px;
+  color: var(--text);
+  text-align: center;
+ }
+}
+
+/*==========================
+15.3 Modules: Mahjong Panel
+===========================*/
+
+#mahjong {
+ display: grid;
+ grid: auto-flow / repeat(7, 1fr);
+ gap: 8px;
+ width: auto;
+ height: auto !important;
+ padding: var(--space2);
+ border: var(--border2);
+ border-radius: var(--border-radius);
+ background: var(--bg-light) !important;
+
+ .stockitem {
+  position: static !important;
+  inset: auto !important;
+  width: 35px !important;
+  height: 52px !important;
+  background-size: 800% 200% !important;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+   transform: translateY(-3px);
+   box-shadow: 0 4px 8px #0006;
+  }
+ }
+}
+
+/*==============
+15.4 Passing Tables
+===============*/
+
+.gamestate_giveCards #playertables {
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+ gap: var(--space4);
+ width: 100%;
+ padding: var(--space);
+
+ .playertable {
+  display: flex;
+  flex-flow: column;
+  place-items: center;
+  min-width: 24vw;
+  width: 24vw;
+  min-height: 40%;
+  padding: var(--space2);
+  margin: var(--space2);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  font-size: clamp(8px, 2.5cqi, 24px);
+  text-align: center;
+ }
+
+ .playertablename {
+  min-width: 16vw;
+  margin: var(--space2);
+  color: var(--text-dark) !important;
+ }
+
+ .playertablebackground {
+  place-self: center;
+  width: 16vw;
+  margin: 1cqi;
+  color: var(--text-dark) !important;
+ }
+
+ :is(.playertable_1, .playertable_3) { margin: 80px 0 16px 0; }
+}
+
+.gamestate_giveCards .isCurrentPlayerActive #playertables {
+ .playertable { cursor: pointer; }
+ .playertabletext { display: block; }
+}
+
